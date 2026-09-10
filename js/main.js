@@ -1,5 +1,32 @@
 /* main.js — shared utilities */
 
+// config.jsonを読み込んでページ全体に反映
+async function loadConfig() {
+  const res = await fetch('data/config.json');
+  const c = await res.json();
+
+  // ヘッダーのlab名
+  document.querySelectorAll('.site-title-en').forEach(el => el.textContent = c.lab_name_en);
+  document.querySelectorAll('.site-title-ja').forEach(el => el.textContent = c.university_ja + ' ' + c.lab_name_ja);
+
+  // フッター
+  document.querySelectorAll('.footer-lab').forEach(el => el.textContent = c.lab_name_ja + '（ゲノム情報学研究室）');
+  document.querySelectorAll('.footer-university').forEach(el => el.textContent = c.university_ja);
+  document.querySelectorAll('.footer-address').forEach(el => el.textContent = c.address);
+  document.querySelectorAll('.footer-copy').forEach(el => el.textContent = '© ' + c.copyright);
+
+  // ページバナー内のタイトル（index.htmlのhero）
+  document.querySelectorAll('.hero-university').forEach(el => el.innerHTML = c.university_ja);
+  document.querySelectorAll('.hero-campus').forEach(el => el.textContent = c.campus);
+  document.querySelectorAll('.hero-university-en').forEach(el => el.textContent = c.university_en);
+
+  // contactページ
+  document.querySelectorAll('.contact-lab').forEach(el => el.textContent = c.lab_name_ja + '（ゲノム情報学研究室）');
+  document.querySelectorAll('.contact-university').forEach(el => el.textContent = c.university_ja);
+  document.querySelectorAll('.contact-address').forEach(el => el.textContent = c.address);
+  document.querySelectorAll('.contact-email').forEach(el => el.textContent = c.email);
+}
+
 // Active nav link
 (function () {
   const page = location.pathname.split('/').pop() || 'index.html';
@@ -96,5 +123,6 @@ async function loadPapers() {
   `).join('');
 }
 
+loadConfig();
 loadMembers();
 loadPapers();
