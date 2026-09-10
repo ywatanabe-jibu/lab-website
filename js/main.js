@@ -8,7 +8,7 @@ async function loadConfig() {
   document.querySelectorAll('.site-title-en').forEach(el => el.textContent = c.lab_name_en);
   document.querySelectorAll('.site-title-ja').forEach(el => el.textContent = c.university_ja + ' ' + c.lab_name_ja);
 
-  document.querySelectorAll('.footer-lab').forEach(el => el.textContent = c.lab_name_ja + '（ゲノム情報学研究室）');
+  document.querySelectorAll('.footer-lab').forEach(el => el.textContent = c.lab_name_ja + '（〇〇研究室）');
   document.querySelectorAll('.footer-university').forEach(el => el.textContent = c.university_ja);
   document.querySelectorAll('.footer-address').forEach(el => el.textContent = c.address);
   document.querySelectorAll('.footer-copy').forEach(el => el.textContent = '© ' + c.copyright);
@@ -17,7 +17,7 @@ async function loadConfig() {
   document.querySelectorAll('.hero-campus').forEach(el => el.textContent = c.campus);
   document.querySelectorAll('.hero-university-en').forEach(el => el.textContent = c.university_en);
 
-  document.querySelectorAll('.contact-lab').forEach(el => el.textContent = c.lab_name_ja + '（ゲノム情報学研究室）');
+  document.querySelectorAll('.contact-lab').forEach(el => el.textContent = c.lab_name_ja + '（〇〇研究室）');
   document.querySelectorAll('.contact-university').forEach(el => el.textContent = c.university_ja);
   document.querySelectorAll('.contact-address').forEach(el => el.textContent = c.address);
   document.querySelectorAll('.contact-email').forEach(el => el.textContent = c.email);
