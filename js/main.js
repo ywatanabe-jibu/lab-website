@@ -10,7 +10,7 @@ async function loadConfig() {
   document.querySelectorAll('.site-title-ja').forEach(el => el.textContent = c.university_ja + ' ' + c.lab_name_ja);
 
   // フッター
-  document.querySelectorAll('.footer-lab').forEach(el => el.textContent = c.lab_name_ja + '（ゲノム情報学研究室）');
+  document.querySelectorAll('.footer-lab').forEach(el => el.textContent = c.lab_name_ja + '（〇〇研究室）');
   document.querySelectorAll('.footer-university').forEach(el => el.textContent = c.university_ja);
   document.querySelectorAll('.footer-address').forEach(el => el.textContent = c.address);
   document.querySelectorAll('.footer-copy').forEach(el => el.textContent = '© ' + c.copyright);
