@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact — 山田研究室</title>
+<title>Contact — Laboratory of Genome Informatics</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -11,8 +11,8 @@
 <header>
   <div class="header-inner">
     <a href="index.html" class="site-title" style="text-decoration:none">
-      Laboratory of Genome Informatics
-      <span>東京科学大学 生命理工学院 山田研究室</span>
+      <span class="site-title-en">Laboratory of Genome Informatics</span>
+      <span class="site-title-ja"></span>
     </a>
     <button class="menu-toggle" id="menu-toggle" aria-label="メニュー" aria-expanded="false">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
@@ -38,23 +38,34 @@
 </div>
 
 <main>
-  <div style="text-align:center; padding:80px 24px; color:var(--text-sub)">
-    <div style="font-size:48px; margin-bottom:24px">🚧</div>
-    <div style="font-size:20px; font-weight:700; color:var(--text); margin-bottom:12px">準備中</div>
-    <div style="font-size:14px">このページは現在準備中です。しばらくお待ちください。</div>
+  <div class="contact-block">
+    <div class="contact-row">
+      <div class="contact-label">研究室</div>
+      <div class="contact-lab"></div>
+    </div>
+    <div class="contact-row">
+      <div class="contact-label">所属</div>
+      <div class="contact-university"></div>
+    </div>
+    <div class="contact-row">
+      <div class="contact-label">所在地</div>
+      <div class="contact-address"></div>
+    </div>
+    <div class="contact-row">
+      <div class="contact-label">Email</div>
+      <div class="contact-email"></div>
+    </div>
   </div>
 </main>
 
 <footer>
   <div class="footer-inner">
     <div class="footer-org">
-      <strong>山田研究室（ゲノム情報学研究室）</strong>
-      東京科学大学 生命理工学院<br>
-      〒152-8550 東京都目黒区大岡山2-12-1 M6棟
+      <strong class="footer-lab"></strong>
+      <span class="footer-university"></span><br>
+      <span class="footer-address"></span>
     </div>
-    <div class="footer-copy">
-      © Laboratory of Genome Informatics, Tokyo Institute of Technology
-    </div>
+    <div class="footer-copy"></div>
   </div>
 </footer>
 
