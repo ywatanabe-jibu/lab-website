@@ -1,0 +1,39 @@
+{
+  "professor": [
+    {
+      "name_ja": "山田 拓司",
+      "name_en": "Takuji Yamada",
+      "role_ja": "教授",
+      "role_en": "Professor",
+      "email": "takuji[at]life.isct.ac.jp",
+      "interests": "Metagenomics, Genomics, Data visualization"
+    }
+  ],
+  "staff": [
+    { "name_ja": "千葉 のどか", "name_en": "Nodoka Chiba", "role_ja": "研究員", "role_en": "Researcher" },
+    { "name_ja": "渡辺 夕紀子", "name_en": "Yukiko Watanabe", "role_ja": "秘書", "role_en": "Secretary" },
+    { "name_ja": "松波 信子", "name_en": "Nobuko Matsunami", "role_ja": "事務補佐", "role_en": "Administrative Assistant" },
+    { "name_ja": "寺島 悦子", "name_en": "Etsuko Terajima", "role_ja": "技術員", "role_en": "Technical Support" },
+    { "name_ja": "篠山 健", "name_en": "T. Sasayama", "role_ja": "技術員", "role_en": "Technical Support" },
+    { "name_ja": "中川 善一", "name_en": "Zenichi Nakagawa", "role_ja": "技術員", "role_en": "Technical Support" },
+    { "name_ja": "中川 聖子", "name_en": "Seiko Nakagawa", "role_ja": "技術員", "role_en": "Technical Support" },
+    { "name_ja": "土倉 大尚", "name_en": "Hirotaka Tsuchikura", "role_ja": "技術員", "role_en": "Technical Support" }
+  ],
+  "phd": [
+    { "name_ja": "Balqis Arche Nofinska", "name_en": "Balqis Arche Nofinska" },
+    { "name_ja": "洪 瑞勋", "name_en": "Ruixun Hong" },
+    { "name_ja": "廣田 佳亮", "name_en": "Keisuke Hirota" },
+    { "name_ja": "趙 舒欣", "name_en": "Shuxin Zhao" },
+    { "name_ja": "吉田 圭佑", "name_en": "Keisuke Yoshida" },
+    { "name_ja": "佐藤 龍飛", "name_en": "Ryuhi Satoh" }
+  ],
+  "master": [
+    { "name_ja": "大川 遥夏", "name_en": "Haruka Okawa" },
+    { "name_ja": "田中 直樹", "name_en": "Naoki Tanaka" }
+  ],
+  "undergrad": [
+    { "name_ja": "石田 さくら", "name_en": "Sakura Ishida" },
+    { "name_ja": "立澤 優芽", "name_en": "Yume Tatsuzawa" },
+    { "name_ja": "馬渡 孔明", "name_en": "Komei Mawatari" }
+  ]
+}
