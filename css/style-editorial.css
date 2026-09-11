@@ -1,0 +1,725 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap");
+
+/* ============================================================
+   style-editorial.css
+   余白とサイズの落差で階層を作る、デザイン誌系のスタイル。
+
+   骨格
+   - 欧文 Inter ＋ 和文 Noto Sans JP / 本文 14px・行間 1.8
+   - 文字色は真っ黒ではなく #231815（墨色）
+   - セクション見出しを 80px まで振り切り、本文 14px との落差で階層を作る
+   - 余白の段階を 8/16/24/40/80/120px で持ち、セクション間に 120px を使う
+   - 罫線は #eee のヘアラインのみ。囲み枠・影・角丸は使わない
+   - ファーストビューは暗転＋白の大きな英文コピー（背景 img/helix.svg）
+
+   必要なファイル
+   - img/helix.svg   … ヒーローの二重螺旋
+   （無い場合も暗い背景色だけで成立するようにしてあります）
+
+   使い方
+   <link rel="stylesheet" href="css/style-editorial.css">
+   ============================================================ */
+
+/* ---------- 1. トークン ---------- */
+:root {
+  --color-text:         #231815;
+  --color-text-light:   #666666;
+  --color-text-lighter: #999999;
+  --color-border:       #cccccc;
+  --color-border-light: #eeeeee;
+  --color-white:        #ffffff;
+  --color-dark:         #06070d;
+
+  --font-base: Inter, "Noto Sans JP", sans-serif;
+
+  --space-xs:  8px;
+  --space-sm:  16px;
+  --space-md:  24px;
+  --space-lg:  40px;
+  --space-xl:  80px;
+  --space-2xl: 120px;
+
+  --wrap: 1320px;
+  --side: 40px;
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ---------- 2. ベース ---------- */
+*, ::before, ::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font-base);
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--color-text);
+  background: var(--color-white);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: #666; color: #fff; }
+
+h1, h2, h3, h4 { margin: 0; line-height: 1.4; font-weight: 700; }
+p  { margin: 0 0 1.2em; }
+ul { margin: 0; padding: 0; list-style: none; }
+img { max-width: 100%; height: auto; vertical-align: bottom; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.3s var(--ease);
+}
+a:hover { opacity: 0.55; }
+
+/* ---------- 3. ヘッダー ---------- */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: block;
+  height: auto;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+/* トップページ（.hero がある場合）はヒーローの上に重ねて透明に */
+body:has(.hero) header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: none;
+  backdrop-filter: none;
+  border-bottom: 0;
+  color: var(--color-white);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  width: 100%;
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: var(--space-md) var(--side);
+}
+
+.site-title { display: block; flex-shrink: 0; }
+
+.site-title-en {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+}
+
+.site-title-ja {
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  color: var(--color-text-lighter);
+}
+body:has(.hero) .site-title-ja { color: rgba(255, 255, 255, 0.6); }
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+nav a {
+  padding: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  background: none;
+  border: 0;
+  border-radius: 0;
+}
+
+nav a.active { opacity: 1; }
+nav a.active::after {
+  content: "";
+  display: block;
+  height: 1px;
+  margin-top: 3px;
+  background: currentColor;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: 0;
+  padding: 8px;
+  color: currentColor;
+  cursor: pointer;
+}
+
+/* ---------- 4. メイン（幅は各ブロックで持つ） ---------- */
+main {
+  max-width: none;
+  margin: 0;
+  padding: 0 0 var(--space-2xl);
+}
+
+/* ---------- 5. ヒーロー ---------- */
+.hero {
+  display: grid;
+  align-content: center;
+  gap: 0;
+  min-height: 100svh;
+  margin: 0;
+  padding: 180px var(--side) 140px;
+  background-color: var(--color-dark);
+  background-image: url("../img/helix.svg");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: var(--color-white);
+  position: relative;
+  grid-template-columns: 1fr;
+}
+
+.hero > div:first-child {
+  width: 100%;
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
+}
+
+.hero-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: var(--space-md);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: rgba(255, 255, 255, 0.55);
+}
+.hero-label::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.hero h1 {
+  font-family: var(--font-base);
+  font-size: clamp(34px, 6.2vw, 84px);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--space-md);
+  color: var(--color-white);
+}
+
+.hero p {
+  max-width: 34em;
+  margin: 0;
+  font-size: 15px;
+  line-height: 2;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* 大学名は下段のクレジット行として置く */
+.hero-badge-wrap {
+  width: 100%;
+  max-width: var(--wrap);
+  margin: var(--space-xl) auto 0;
+  padding: var(--space-md) 0 0;
+  background: none;
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 0;
+  box-shadow: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-sm) var(--space-lg);
+}
+
+.hero-university {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.hero-badge-wrap p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.9;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.hero-campus { color: rgba(255, 255, 255, 0.75); }
+.hero-university-en { color: rgba(255, 255, 255, 0.45); }
+
+/* スクロールを促す縦線 */
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 1px;
+  height: 72px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5));
+  animation: heroLine 2.4s var(--ease) infinite;
+  transform-origin: bottom;
+}
+@keyframes heroLine {
+  0%   { transform: scaleY(0); opacity: 0; }
+  40%  { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+
+/* ---------- 6. セクション見出し（和文ラベル＋巨大英文） ---------- */
+.section-heading {
+  max-width: var(--wrap);
+  margin: var(--space-2xl) auto 0;
+  padding: 0 var(--side);
+  border: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--color-text-lighter);
+}
+
+.section-sub {
+  max-width: var(--wrap);
+  margin: var(--space-xs) auto var(--space-xl);
+  padding: 0 var(--side);
+  border: 0;
+  font-size: clamp(38px, 6.4vw, 80px);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+}
+
+.section-divider { display: none; }
+
+/* ---------- 7. 研究テーマ ---------- */
+.research-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 72px 48px;
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0 var(--side);
+  counter-reset: topic;
+}
+
+.research-card {
+  position: relative;
+  counter-increment: topic;
+  padding: var(--space-md) 0 0;
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--color-border-light);
+  border-radius: 0;
+  box-shadow: none;
+  text-align: left;
+  transition: none;
+}
+.research-card:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--color-text);
+}
+
+.research-card::before {
+  content: counter(topic, decimal-leading-zero);
+  position: absolute;
+  top: var(--space-md);
+  right: 0;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--color-border);
+}
+
+.research-icon {
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 0 0 var(--space-md);
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  font-size: 30px;
+  line-height: 1;
+  filter: grayscale(1);
+  opacity: 0.8;
+}
+
+.research-card h3 {
+  margin: 0 0 var(--space-xs);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.6;
+}
+
+.research-card p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.95;
+  color: var(--color-text-light);
+  text-align: left;
+}
+
+/* ---------- 8. お知らせ ---------- */
+.news-list {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 var(--side);
+}
+
+.news-item {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: var(--space-md);
+  align-items: baseline;
+  padding: 26px 0;
+  border: 0;
+  border-bottom: 1px solid var(--color-border-light);
+}
+.news-item:first-child { border-top: 1px solid var(--color-border-light); }
+
+.news-date {
+  width: auto;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--color-text-lighter);
+  font-variant-numeric: tabular-nums;
+}
+
+.news-text { font-size: 15px; line-height: 1.9; }
+.news-text a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- 9. 下層ページの見出し ---------- */
+.page-banner {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+}
+
+.page-banner-inner {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--side) var(--space-xl);
+  border: 0;
+}
+
+.page-banner-label {
+  display: block;
+  margin-bottom: var(--space-xs);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--color-text-lighter);
+}
+
+.page-banner h1 {
+  font-family: var(--font-base);
+  font-size: clamp(32px, 5.2vw, 68px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  padding: 0;
+}
+
+/* ---------- 10. メンバー ---------- */
+.member-section {
+  max-width: var(--wrap);
+  margin: 0 auto var(--space-xl);
+  padding: 0 var(--side);
+}
+
+.member-section-title {
+  margin: 0 0 var(--space-lg);
+  padding: var(--space-md) 0 0;
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--color-border-light);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--color-text-lighter);
+}
+
+.member-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-lg);
+}
+
+.member-item {
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* 教授は2枠分を使い、写真とテキストを横並びに */
+.member-item.professor {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+  align-items: start;
+}
+.member-item.professor .member-photo { margin-bottom: 0; }
+.member-item.professor .member-name { font-size: 20px; }
+
+/* 写真枠。中身は絵文字でも <img> でもそのまま入る */
+.member-photo {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 5;
+  margin-bottom: var(--space-sm);
+  background: linear-gradient(160deg, #f5f4f1 0%, #e8e7e2 100%);
+  font-size: clamp(46px, 6vw, 78px);
+  line-height: 1;
+  overflow: hidden;
+  filter: grayscale(0.15);
+}
+.member-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+.member-name {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.member-name-en {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--color-text-lighter);
+}
+
+.member-role {
+  display: block;
+  margin-top: var(--space-xs);
+  font-size: 12px;
+  color: var(--color-text-light);
+}
+
+.member-email {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--color-text-lighter);
+}
+
+/* ---------- 11. 論文 ---------- */
+.papers-list {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 var(--side);
+  counter-reset: paper;
+}
+
+.paper-item {
+  counter-increment: paper;
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: var(--space-md);
+  padding: 28px 0;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--color-border-light);
+  box-shadow: none;
+}
+.paper-item:first-child { border-top: 1px solid var(--color-border-light); }
+
+.paper-item::before {
+  content: counter(paper, decimal-leading-zero);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--color-border);
+  line-height: 2.4;
+}
+
+.paper-title {
+  margin: 0 0 2px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.75;
+}
+
+.paper-meta { font-size: 12px; color: var(--color-text-lighter); }
+.paper-meta a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- 12. Contact ---------- */
+.contact-block {
+  max-width: 900px;
+  margin: 0 auto var(--space-xl);
+  padding: 0 var(--side);
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.contact-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: var(--space-md);
+  padding: 22px 0;
+  border: 0;
+  border-bottom: 1px solid var(--color-border-light);
+}
+.contact-row:first-child { border-top: 1px solid var(--color-border-light); }
+.contact-row:last-child { border-bottom: 1px solid var(--color-border-light); }
+
+.contact-label {
+  padding: 0;
+  background: none;
+  border: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-text-lighter);
+}
+
+/* ---------- 13. フッター ---------- */
+footer {
+  margin-top: var(--space-2xl);
+  padding: 0;
+  background: var(--color-dark);
+  border: 0;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-inner {
+  display: block;
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: var(--space-xl) var(--side) 0;
+}
+
+.footer-org { font-size: 13px; line-height: 2; }
+
+.footer-org strong,
+.footer-lab {
+  display: block;
+  margin-bottom: var(--space-xs);
+  font-size: clamp(22px, 3vw, 34px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: var(--color-white);
+}
+
+.footer-university { color: rgba(255, 255, 255, 0.65); }
+.footer-address { font-size: 12px; color: rgba(255, 255, 255, 0.4); }
+
+.footer-copy {
+  max-width: var(--wrap);
+  margin: var(--space-xl) auto 0;
+  padding: var(--space-md) var(--side) var(--space-lg);
+  background: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: left;
+}
+
+/* ---------- 14. スクロールで入ってくる動き（対応ブラウザのみ） ---------- */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .section-heading,
+    .section-sub,
+    .research-card,
+    .news-item,
+    .member-item,
+    .paper-item {
+      animation: fadeUp 1s var(--ease) both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 22%;
+    }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* ---------- 15. レスポンシブ ---------- */
+@media (max-width: 1100px) {
+  :root { --side: 28px; --space-2xl: 96px; --space-xl: 64px; }
+  .research-grid { grid-template-columns: repeat(2, 1fr); gap: 56px 40px; }
+  .member-list { grid-template-columns: repeat(3, 1fr); }
+  .member-item.professor { grid-column: span 2; }
+}
+
+@media (max-width: 768px) {
+  :root { --side: 20px; --space-2xl: 72px; --space-xl: 48px; }
+
+  .menu-toggle { display: block; }
+
+  nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding: var(--space-sm) var(--side) var(--space-md);
+    background: var(--color-white);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+  nav.open { display: flex; }
+  nav a {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 14px;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+  nav a.active::after { display: none; }
+
+  .hero { padding: 150px var(--side) 110px; min-height: 88svh; }
+  .hero p { font-size: 14px; }
+  .hero-badge-wrap { margin-top: var(--space-lg); }
+
+  .news-item { grid-template-columns: 1fr; gap: 2px; padding: 20px 0; }
+  .paper-item { grid-template-columns: 1fr; gap: 4px; }
+  .paper-item::before { line-height: 1.6; }
+  .contact-row { grid-template-columns: 1fr; gap: 2px; }
+  .member-list { grid-template-columns: repeat(2, 1fr); gap: var(--space-md); }
+  .member-item.professor { grid-column: span 2; }
+}
+
+@media (max-width: 480px) {
+  .research-grid { grid-template-columns: 1fr; gap: 44px; }
+}
