@@ -3,13 +3,14 @@
 
 /* ============================================================
    style-ai.css（藍）
-   手描きの「人と微生物」の絵を、藍染めの布に白い糸で描いたように
-   背景へ溶け込ませるスタイル。
+   トップ画だけを濃藍の地にして、手描きの「人と微生物」の絵を
+   溶け込ませるスタイル。それ以外のページ部分は白地に墨色の文字。
 
    骨格
-   - 地は藍色、文字は生成り色。真っ黒・真っ白は使わない
+   - トップ画：濃藍の地に生成り色の文字
+   - それ以外：白地に墨色の文字
    - 見出しは明朝（しっぽり明朝）、本文は角ゴシック（Zen 角ゴシック New）
-   - アクセントは浅葱色（絵の中の青い微生物と同じ系統）を1色だけ
+   - アクセントは浅葱色（絵の中の青い微生物と同じ系統）。白地では濃いめに
    - 主役はトップの絵。右下に寄せ、人物を中央から外して置く
    - 動きはページを開いたときに絵がゆっくり浮かぶ1か所だけ
 
@@ -23,12 +24,20 @@
 
 /* ---------- 1. トークン ---------- */
 :root {
-  --ai:          #1d2b3d;   /* 藍：ページの地 */
-  --ai-deep:     #152131;   /* 濃藍：フッター */
-  --ai-line:     rgba(233, 227, 211, 0.16); /* 罫線 */
-  --kinari:      #e9e3d3;   /* 生成り：本文 */
-  --nezumi:      #a3acb5;   /* 銀鼠：補助の文字 */
-  --asagi:       #86c0c2;   /* 浅葱：リンクとアクセント */
+  /* トップ画（ヒーロー）とフッター */
+  --night:       #131b26;   /* 濃藍：トップ画の地 */
+  --night-line:  rgba(233, 227, 211, 0.16);
+  --kinari:      #ece6d6;   /* 生成り：トップ画の文字 */
+  --kinari-sub:  #c3c9cf;   /* トップ画の補助の文字 */
+  --asagi:       #86c0c2;   /* 浅葱：トップ画のアクセント */
+
+  /* それ以外の白いページ部分 */
+  --paper:       #ffffff;   /* 地 */
+  --sumi:        #1f2125;   /* 墨：本文 */
+  --sumi-sub:    #5d636b;   /* 補助の文字 */
+  --line:        #e4e1d8;   /* 罫線 */
+  --asagi-deep:  #1f6370;   /* 白地の上のリンク */
+  --tint:        #f4f2ec;   /* 写真枠などのうすい地 */
 
   --font-head: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
   --font-body: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", sans-serif;
@@ -50,8 +59,8 @@ body {
   font-size: 15px;
   line-height: 1.95;
   letter-spacing: 0.03em;
-  color: var(--kinari);
-  background: var(--ai);
+  color: var(--sumi);
+  background: var(--paper);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -65,24 +74,24 @@ p  { margin: 0 0 1.2em; }
 ul { margin: 0; padding: 0; list-style: none; }
 img { max-width: 100%; height: auto; }
 
-a { color: var(--asagi); text-underline-offset: 4px; }
-a:hover { color: var(--kinari); }
+a { color: var(--asagi-deep); text-underline-offset: 4px; }
+a:hover { color: var(--sumi); }
 
 :focus-visible {
-  outline: 2px solid var(--asagi);
+  outline: 2px solid var(--asagi-deep);
   outline-offset: 3px;
 }
 
-::selection { background: var(--asagi); color: var(--ai); }
+::selection { background: var(--asagi); color: var(--sumi); }
 
 /* ---------- 3. ヘッダー ---------- */
 header {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(29, 43, 61, 0.94);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--ai-line);
+  border-bottom: 1px solid var(--line);
 }
 
 /* トップページでは絵の上に透明で重ねる */
@@ -105,8 +114,8 @@ body:has(.hero) header {
   padding: 22px var(--side);
 }
 
-.site-title { color: var(--kinari); text-decoration: none; }
-.site-title:hover { color: var(--kinari); }
+.site-title { color: var(--sumi); text-decoration: none; }
+.site-title:hover { color: var(--sumi); }
 
 .site-title-en {
   display: block;
@@ -120,7 +129,7 @@ body:has(.hero) header {
   display: block;
   font-size: 11px;
   letter-spacing: 0.12em;
-  color: var(--nezumi);
+  color: var(--sumi-sub);
 }
 
 nav {
@@ -132,22 +141,30 @@ nav {
 nav a {
   font-size: 13px;
   letter-spacing: 0.06em;
-  color: var(--kinari);
+  color: var(--sumi);
   text-decoration: none;
   white-space: nowrap;
   padding-bottom: 2px;
   border-bottom: 1px solid transparent;
 }
-nav a:hover { color: var(--asagi); }
-nav a.active { border-bottom-color: var(--asagi); }
+nav a:hover { color: var(--asagi-deep); }
+nav a.active { border-bottom-color: var(--asagi-deep); }
+
+/* トップページでは、暗いトップ画の上なのでヘッダーの文字を明るく */
+body:has(.hero) .site-title,
+body:has(.hero) nav a { color: var(--kinari); }
+body:has(.hero) .site-title-ja { color: var(--kinari-sub); }
+body:has(.hero) nav a:hover { color: var(--asagi); }
+body:has(.hero) nav a.active { border-bottom-color: var(--asagi); }
+body:has(.hero) .menu-toggle { color: var(--kinari); border-color: var(--night-line); }
 
 .menu-toggle {
   display: none;
   padding: 8px;
   background: none;
-  border: 1px solid var(--ai-line);
+  border: 1px solid var(--line);
   border-radius: 4px;
-  color: var(--kinari);
+  color: var(--sumi);
   cursor: pointer;
 }
 
@@ -165,7 +182,8 @@ main { padding-bottom: var(--gap-xl); }
   margin: 0;
   padding: 160px var(--side) 72px;
   overflow: hidden;
-  background: none;
+  background: var(--night);
+  color: var(--kinari);
 }
 
 /* 手描きの絵。右下に寄せて、文字の右側に広がるように置く */
@@ -247,7 +265,7 @@ main { padding-bottom: var(--gap-xl); }
   margin: 0;
   font-size: 13px;
   line-height: 1.9;
-  color: var(--nezumi);
+  color: var(--kinari-sub);
 }
 
 /* ---------- 6. セクション見出し ---------- */
@@ -264,7 +282,7 @@ main { padding-bottom: var(--gap-xl); }
   margin-top: var(--gap-xl);
   font-size: clamp(26px, 3vw, 36px);
   letter-spacing: 0.1em;
-  color: var(--kinari);
+  color: var(--sumi);
 }
 
 .section-sub {
@@ -274,7 +292,7 @@ main { padding-bottom: var(--gap-xl); }
   font-size: 15px;
   font-weight: 500;
   letter-spacing: 0.06em;
-  color: var(--nezumi);
+  color: var(--sumi-sub);
 }
 
 .section-divider { display: none; }
@@ -293,7 +311,7 @@ main { padding-bottom: var(--gap-xl); }
   padding: 28px 0 0;
   background: none;
   border: 0;
-  border-top: 1px solid var(--ai-line);
+  border-top: 1px solid var(--line);
   border-radius: 0;
   box-shadow: none;
   text-align: left;
@@ -310,8 +328,8 @@ main { padding-bottom: var(--gap-xl); }
   border: 0;
   font-size: 26px;
   line-height: 1;
-  filter: grayscale(1) brightness(1.6);
-  opacity: 0.55;
+  filter: grayscale(1);
+  opacity: 0.7;
 }
 
 .research-card h3 {
@@ -324,7 +342,7 @@ main { padding-bottom: var(--gap-xl); }
   margin: 0;
   font-size: 14px;
   line-height: 2;
-  color: var(--nezumi);
+  color: var(--sumi-sub);
 }
 
 /* ---------- 8. お知らせ ---------- */
@@ -340,13 +358,13 @@ main { padding-bottom: var(--gap-xl); }
   gap: var(--gap-m);
   padding: 22px 0;
   border: 0;
-  border-bottom: 1px solid var(--ai-line);
+  border-bottom: 1px solid var(--line);
 }
-.news-item:first-child { border-top: 1px solid var(--ai-line); }
+.news-item:first-child { border-top: 1px solid var(--line); }
 
 .news-date {
   font-size: 13px;
-  color: var(--nezumi);
+  color: var(--sumi-sub);
   font-variant-numeric: tabular-nums;
 }
 
@@ -368,7 +386,7 @@ main { padding-bottom: var(--gap-xl); }
   margin-bottom: 6px;
   font-family: var(--font-head);
   font-size: 15px;
-  color: var(--asagi);
+  color: var(--asagi-deep);
 }
 .page-banner h1 {
   font-size: clamp(28px, 4vw, 44px);
@@ -387,10 +405,10 @@ main { padding-bottom: var(--gap-xl); }
   padding: 20px 0 0;
   background: none;
   border: 0;
-  border-top: 1px solid var(--ai-line);
+  border-top: 1px solid var(--line);
   font-size: 18px;
   letter-spacing: 0.1em;
-  color: var(--kinari);
+  color: var(--sumi);
 }
 .member-list {
   display: grid;
@@ -409,7 +427,7 @@ main { padding-bottom: var(--gap-xl); }
   place-items: center;
   aspect-ratio: 4 / 5;
   margin-bottom: 12px;
-  background: var(--ai-deep);
+  background: var(--tint);
   border-radius: 2px;
   font-size: clamp(44px, 5vw, 68px);
   overflow: hidden;
@@ -417,7 +435,7 @@ main { padding-bottom: var(--gap-xl); }
 .member-photo img { width: 100%; height: 100%; object-fit: cover; }
 .member-name { display: block; font-family: var(--font-head); font-size: 17px; font-weight: 700; }
 .member-name-en,
-.member-email { display: block; font-size: 12px; color: var(--nezumi); }
+.member-email { display: block; font-size: 12px; color: var(--sumi-sub); }
 .member-role { display: block; margin-top: 4px; font-size: 13px; }
 
 /* ---------- 11. 論文 ---------- */
@@ -430,12 +448,12 @@ main { padding-bottom: var(--gap-xl); }
   padding: 24px 0;
   background: none;
   border: 0;
-  border-bottom: 1px solid var(--ai-line);
+  border-bottom: 1px solid var(--line);
   box-shadow: none;
 }
-.paper-item:first-child { border-top: 1px solid var(--ai-line); }
+.paper-item:first-child { border-top: 1px solid var(--line); }
 .paper-title { margin: 0 0 4px; font-size: 15px; font-weight: 500; line-height: 1.8; }
-.paper-meta { font-size: 13px; color: var(--nezumi); }
+.paper-meta { font-size: 13px; color: var(--sumi-sub); }
 
 /* ---------- 12. Contact ---------- */
 .contact-block {
@@ -452,25 +470,26 @@ main { padding-bottom: var(--gap-xl); }
   gap: var(--gap-m);
   padding: 20px 0;
   border: 0;
-  border-bottom: 1px solid var(--ai-line);
+  border-bottom: 1px solid var(--line);
 }
-.contact-row:first-child { border-top: 1px solid var(--ai-line); }
+.contact-row:first-child { border-top: 1px solid var(--line); }
 .contact-label {
   padding: 0;
   background: none;
   border: 0;
   font-family: var(--font-head);
   font-size: 14px;
-  color: var(--nezumi);
+  color: var(--sumi-sub);
 }
 
 /* ---------- 13. フッター ---------- */
 footer {
   margin: 0;
   padding: 0;
-  background: var(--ai-deep);
+  background: var(--paper);
   border: 0;
-  color: var(--nezumi);
+  border-top: 1px solid var(--line);
+  color: var(--sumi-sub);
 }
 .footer-inner {
   max-width: var(--wrap);
@@ -484,16 +503,16 @@ footer {
   margin-bottom: 6px;
   font-family: var(--font-head);
   font-size: 20px;
-  color: var(--kinari);
+  color: var(--sumi);
 }
 .footer-copy {
   width: min(100% - 2 * var(--side), var(--wrap) - 2 * var(--side));
   margin: var(--gap-l) auto 0;
   padding: 20px 0 32px;
   background: none;
-  border-top: 1px solid var(--ai-line);
+  border-top: 1px solid var(--line);
   font-size: 12px;
-  color: var(--nezumi);
+  color: var(--sumi-sub);
   text-align: left;
 }
 
@@ -519,14 +538,16 @@ footer {
     align-items: stretch;
     gap: 0;
     padding: 8px var(--side) 20px;
-    background: var(--ai-deep);
-    border-bottom: 1px solid var(--ai-line);
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
   }
   nav.open { display: flex; }
-  nav a {
+  nav a,
+  body:has(.hero) nav a {
     padding: 12px 0;
     font-size: 15px;
-    border-bottom: 1px solid var(--ai-line);
+    color: var(--sumi);
+    border-bottom: 1px solid var(--line);
   }
 
   /* スマホでは絵を文字の背後に薄く敷く */
